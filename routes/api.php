@@ -18,6 +18,7 @@ Route::get('/articles', 'ArticleController@getList');
 Route::get('/articles/{id}', 'ArticleController@getByID');
 Route::post('/articles', 'ArticleController@create');
 Route::put('/articles', 'ArticleController@update');
+Route::delete('/articles', 'ArticleController@delete');
 
 // JWT Auth
 Route::post('register', 'AuthController@register');

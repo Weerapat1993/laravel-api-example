@@ -11,6 +11,15 @@ use Validator, DB, Hash, Mail, Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->rules = [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'min:6|max:255',
+        ];
+    }
+
     /**
      * API Register
      *
@@ -19,24 +28,22 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        // Validator
         $credentials = $request->only('name', 'email', 'password');
-
-        $rules = [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'min:6|max:255',
-        ];
-
-        $validator = Validator::make($credentials, $rules);
+        $validator = Validator::make($credentials, $this->rules);
         if($validator->fails()) {
-            return response()->json(['success'=> false, 'error'=> $validator->messages()]);
+            return $this->getFailure(400, $validator->messages());
         }
 
         $name = $request->name;
         $email = $request->email;
         $password = $request->password;
 
-        User::create(['name' => $name, 'email' => $email, 'password' => Hash::make($password)]);
+        User::create([
+            'name' => $name, 
+            'email' => $email, 
+            'password' => Hash::make($password),
+        ]);
 
         return $this->login($request);
     }
@@ -56,19 +63,21 @@ class AuthController extends Controller
         ];
         $validator = Validator::make($credentials, $rules);
         if($validator->fails()) {
-            return response()->json(['success'=> false, 'error'=> $validator->messages()]);
+            return $this->getFailure(400, $validator->messages());
         }
         try {
             // attempt to verify the credentials and create a token for the user
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['success' => false, 'error' => 'We cant find an account with this credentials.'], 401);
+                return $this->getFailure(401, 'We cant find an account with this credentials.');
             }
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
-            return response()->json(['success' => false, 'error' => 'Failed to login, please try again.'], 500);
+            return $this->getFailure(500, 'Failed to login, please try again.');
         }
         // all good so return the token
-        return response()->json(['success' => true, 'data'=> [ 'token' => $token ]]);
+        return $this->getSuccess(500, [
+            'token' => $token 
+        ]);
     }
     /**
      * Log out
@@ -81,10 +90,10 @@ class AuthController extends Controller
         $this->validate($request, ['token' => 'required']);
         try {
             JWTAuth::invalidate($request->input('token'));
-            return response()->json(['success' => true, 'message'=> "You have successfully logged out."]);
+            return $this->getSuccess(200, "You have successfully logged out.");
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
-            return response()->json(['success' => false, 'error' => 'Failed to logout, please try again.'], 500);
+            return $this->getFailure(500, 'Failed to logout, please try again.');
         }
     }
 

@@ -23,7 +23,7 @@
  */
 
 
- /**
+/**
  * @api {put} /articles PUT Article Update
  * @apiSampleRequest /api/articles
  * @apiParam {Number} id  Article ID
@@ -31,5 +31,13 @@
  * @apiParam {String} [description]  Description
  * @apiParam {String} [user_id]     User ID
  * @apiName articleUpdate
+ * @apiGroup Article
+ */
+
+/**
+ * @api {delete} /articles DELETE Article Delete
+ * @apiSampleRequest /api/articles
+ * @apiParam {Number} id  Article ID
+ * @apiName articleDelete
  * @apiGroup Article
  */

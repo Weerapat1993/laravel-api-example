@@ -8,9 +8,10 @@
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "api:doc": "apidoc -i docs -o public"
+        "api:doc": "apidoc -i app/Http/Controllers -o public"
     },
     "devDependencies": {
+        "apidoc": "^0.17.6",
         "axios": "^0.18",
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
@@ -19,8 +20,5 @@
         "lodash": "^4.17.4",
         "popper.js": "^1.12",
         "vue": "^2.5.7"
-    },
-    "dependencies": {
-        "apidoc": "^0.17.6"
     }
 }

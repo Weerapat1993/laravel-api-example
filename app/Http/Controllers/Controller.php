@@ -33,6 +33,12 @@ class Controller extends BaseController
         }
     }
 
+    /**
+     * response json `success` case
+     * @param Number $code
+     * @param Any $data
+     * @return Object
+     */
     public function getSuccess($code, $data)
     {
         return response()->json([
@@ -42,6 +48,12 @@ class Controller extends BaseController
         ]);
     }
 
+    /**
+     * response json `failure` case
+     * @param Number $code
+     * @param Any $data
+     * @return Object
+     */
     public function getFailure($code, $error)
     {
         return response()->json([
@@ -51,6 +63,13 @@ class Controller extends BaseController
         ]);
     }
 
+    /**
+     * Create `Validator`
+     * 
+     * @param Object $credentials
+     * @param Object $rules
+     * @return Validator
+     */
     public function Validator($credentials, $rules)
     {
         $validator = Validator::make($credentials, $rules);
@@ -59,6 +78,10 @@ class Controller extends BaseController
 
     // CRUD Function -------------------------------------------
 
+    /**
+     * Get `Primary Key`
+     * @return String
+     */
     public function pk()
     {
         if($this->isJoin) {
@@ -69,6 +92,11 @@ class Controller extends BaseController
         return $pk;
     }
 
+    /**
+     * Get Data Model By ID
+     * @param Number $id
+     * @return Object
+     */
     public function dataByID($id)
     {
         $pk = $this->pk();
@@ -78,11 +106,19 @@ class Controller extends BaseController
         return $article;
     }
 
+    /**
+     * Response Data Model Lists
+     * @return Array
+     */
     public function getList() {
         $articles = $this->Model()->get();
         return $this->getSuccess(200, $articles);
     }
 
+    /**
+     * Response Data Model By ID
+     * @return Array
+     */
     public function getByID($id, Request $request)
     {
         try {
@@ -94,6 +130,11 @@ class Controller extends BaseController
         
     }
 
+    /**
+     * Delete Data By ID
+     * @param Request $request
+     * @return Object
+     */
     public function delete(Request $request)
     {
         $credentials = $request->only('id');

@@ -59,10 +59,21 @@ class Controller extends BaseController
 
     // CRUD Function -------------------------------------------
 
+    public function pk()
+    {
+        if($this->isJoin) {
+            $pk = $this->tableName.'.'.$this->primaryKey;
+        } else {
+            $pk = $this->primaryKey;
+        }
+        return $pk;
+    }
+
     public function dataByID($id)
     {
+        $pk = $this->pk();
         $article = $this->Model()
-                ->where($this->tableName.'.'.$this->primaryKey, $id)
+                ->where($pk, $id)
                 ->firstOrFail();
         return $article;
     }
@@ -92,11 +103,12 @@ class Controller extends BaseController
             return $this->getFailure(400, $validator->messages());
         }
         $id = $request->id;
+        $pk = $this->pk();
         try {
             if($id) {
-                $count = $this->Model()->where($this->tableName.'.'.$this->primaryKey, $id)->count();
+                $count = $this->Model()->where($pk, $id)->count();
                 if($count) {
-                    $this->Model()->where($this->tableName.'.'.$this->primaryKey, $id)->delete();
+                    $this->Model()->where($pk, $id)->delete();
                     return $this->getSuccess(200, [ 'id' => $id ]);
                 }
                 return $this->getFailure(404, 'Data is not found.');

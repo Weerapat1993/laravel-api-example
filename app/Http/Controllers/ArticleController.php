@@ -14,6 +14,7 @@ class ArticleController extends Controller
     {
         $this->tableName = 'articles';
         $this->primaryKey = 'id';
+        $this->isJoin = true;
     }
 
     public function Model()
@@ -40,7 +41,7 @@ class ArticleController extends Controller
     public function update(ArticleRequest $request)
     {
         $id = $request->id;
-        Article::where('id', $id)->update([
+        Article::where($this->primaryKey, $id)->update([
             'title' => $request->title, 
             'description' => $request->description,
         ]);

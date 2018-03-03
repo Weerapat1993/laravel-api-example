@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 // Article
 Route::get('/articles', 'ArticleController@getList');
 Route::get('/articles/{id}', 'ArticleController@getByID');
+Route::post('/articles', 'ArticleController@create');
+Route::put('/articles', 'ArticleController@update');
 
 // JWT Auth
 Route::post('register', 'AuthController@register');

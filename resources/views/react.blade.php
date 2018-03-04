@@ -3,10 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-  <meta name="theme-color" content="#000000">
   <link rel="manifest" href="/manifest.json">
   <link rel="shortcut icon" href="/favicon.ico">
   <title>{{ $title or 'Title' }}</title>
+  <link rel="canonical" href="{{ url($path) }}">
+  <meta name="title" content="{{ $title or 'Title' }}" />
+  <meta name="referrer" content="unsafe-url">
+  <meta name="description" content="{{ $description or 'Descripiton' }}">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:title" content="{{ $title or 'Title' }}">
+  <meta property="og:url" content="{{ url($path) }}">
+  <meta property="og:image" content={{ $image or '' }}>
   <link href="/assets/css/github-markdown" rel="stylesheet">
   <link href="/static/css/main.89927250.css" rel="stylesheet">
 </head>

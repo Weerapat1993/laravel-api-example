@@ -42,8 +42,9 @@ class AuthController extends Controller
     {
         $this->rules = [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'required|email|max:255',
             'password' => 'min:6|max:255',
+            'avatar' => '',
         ];
     }
 
@@ -56,21 +57,25 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         // Validator
-        $credentials = $request->only('name', 'email', 'password');
+        $credentials = $request->only('name', 'email', 'password', 'avatar');
         $validator = Validator::make($credentials, $this->rules);
         if($validator->fails()) {
             return $this->getFailure(400, $validator->messages());
         }
-
         $name = $request->name;
         $email = $request->email;
         $password = $request->password;
+        $avatar = $request->avatar;
 
-        User::create([
-            'name' => $name, 
-            'email' => $email, 
-            'password' => Hash::make($password),
-        ]);
+        $check_user = User::where('email', '=', $email);
+        if(!$check_user->count()) {
+            User::create([
+                'name' => $name, 
+                'email' => $email, 
+                'password' => Hash::make($password),
+                'avatar' => $avatar,
+            ]);
+        }
 
         return $this->login($request);
     }
@@ -93,18 +98,20 @@ class AuthController extends Controller
             return $this->getFailure(400, $validator->messages());
         }
         try {
+            $token = JWTAuth::attempt($credentials);
             // attempt to verify the credentials and create a token for the user
-            if (!$token = JWTAuth::attempt($credentials)) {
+            if (!$token) {
                 return $this->getFailure(401, 'We cant find an account with this credentials.');
             }
+            $user = User::where('email', '=', $request->email)->firstOrFail();
+            return $this->getSuccess(500, [
+                'token' => $token,
+                'user' => $user,
+            ]);
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
             return $this->getFailure(500, 'Failed to login, please try again.');
         }
-        // all good so return the token
-        return $this->getSuccess(500, [
-            'token' => $token 
-        ]);
     }
     /**
      * Log out
@@ -148,6 +155,16 @@ class AuthController extends Controller
         }
         return response()->json([
             'success' => true, 'data'=> ['message'=> 'A reset email has been sent! Please check your email.']
+        ]);
+    }
+
+    public function getAuthUser(Request $request){
+        $user = JWTAuth::toUser($request->header('Authorization'));
+        // $user = JWTAuth::toUser($request->get('token'));
+        return response()->json([
+            'data' => $user,
+            'code' => 200,
+            'status' => 'OK',
         ]);
     }
 }

@@ -50,15 +50,17 @@ use Exception;
 use Validator;
 use Illuminate\Http\Request;
 use App\Article;
+use App\Http\Controllers\CommentController;
 use App\Http\Requests\ArticleRequest;
 
 class ArticleController extends Controller
 {
-    public function __construct()
+    public function __construct(CommentController $commentController)
     {
         $this->tableName = 'articles';
         $this->primaryKey = 'id';
         $this->isJoin = true;
+        $this->comment = $commentController;
     }
 
     public function Model()
@@ -67,6 +69,22 @@ class ArticleController extends Controller
             ->select('articles.*','users.name as user_name','users.avatar')
             ->orderBy('articles.created_at', 'desc');
         return $articles;
+    }
+
+    /**
+     * Response Data Model By ID
+     * @return Array
+     */
+    public function getByID($id, Request $request)
+    {
+        try {
+            $article = $this->dataByID($id);
+            $article->comment = $this->comment->getCommentByArticleID($id);
+            return $this->getSuccess(200, $article);
+        } catch(Exception $e) {
+            return $this->getFailure(404, $e->getMessage());
+        }
+        
     }
 
     public function create(ArticleRequest $request)

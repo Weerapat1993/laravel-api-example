@@ -49,14 +49,19 @@ class CommentController extends Controller
         return $models;
     }
 
-    public function getListByArticleID(Request $request) {
-        $article_id = $request->get('article_id');
-        if($article_id) {
-            $articles = $this->Model()->where('article_id', $article_id)->get();
+    public function getCommentByArticleID($id) {
+        if($id) {
+            $comments = $this->Model()->where('article_id', $id)->get();
         } else {
-            $articles = $this->Model()->get();
+            $comments = $this->Model()->get();
         }
-        return $this->getSuccess(200, $articles);
+        return $comments;
+    }
+
+    public function getListByArticleID(Request $request) {
+        $id = $request->get('article_id');
+        $comments = $this->getCommentByArticleID($id);
+        return $this->getSuccess(200, $comments);
     }
 
     public function create(CommentRequest $request)

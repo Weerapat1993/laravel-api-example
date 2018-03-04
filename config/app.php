@@ -152,6 +152,7 @@ return [
          */
 
         'Tymon\JWTAuth\Providers\LaravelServiceProvider',
+        Barryvdh\Cors\ServiceProvider::class,
 
         /*
          * Application Service Providers...

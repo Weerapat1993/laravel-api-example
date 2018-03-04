@@ -3,6 +3,7 @@
 /**
  * @api {get} /comments GET Comment List
  * @apiSampleRequest /api/comments
+ * @apiParam {Number} article_id  Comment List by Article ID
  * @apiName commentList
  * @apiGroup Comment
  */

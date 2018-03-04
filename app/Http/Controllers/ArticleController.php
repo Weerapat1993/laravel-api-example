@@ -75,6 +75,7 @@ class ArticleController extends Controller
 
         $article->title = $request->title;
         $article->description = $request->description;
+        $article->image_url = $request->image_url;
         $article->user_id = $request->user_id;
 
         $article->save();
@@ -88,6 +89,7 @@ class ArticleController extends Controller
         Article::where($this->primaryKey, $id)->update([
             'title' => $request->title, 
             'description' => $request->description,
+            'image_url' => $request->image_url,
         ]);
         $articleByID = $this->dataByID($id);
         return $this->getSuccess(200, $articleByID);

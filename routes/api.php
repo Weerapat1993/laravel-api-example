@@ -20,6 +20,11 @@ Route::post('/articles', 'ArticleController@create');
 Route::put('/articles', 'ArticleController@update');
 Route::delete('/articles', 'ArticleController@delete');
 
+// Comment
+Route::get('/comments', 'CommentController@getListByArticleID');
+Route::get('/comments/{id}', 'CommentController@getByID');
+Route::post('/comments', 'CommentController@create');
+
 // JWT Auth
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');

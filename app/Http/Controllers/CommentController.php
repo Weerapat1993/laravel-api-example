@@ -15,7 +15,7 @@
  * @apiGroup Comment
  */
 
- /**
+/**
  * @api {post} /comments POST Comment Create
  * @apiSampleRequest /api/comments
  * @apiParam {String} comment  Comment
@@ -25,6 +25,13 @@
  * @apiGroup Comment
  */
 
+/**
+ * @api {delete} /comments DELETE Comment Delete
+ * @apiSampleRequest /api/comments
+ * @apiParam {Number} id  Comment ID
+ * @apiName commentDelete
+ * @apiGroup Comment
+ */
 
 namespace App\Http\Controllers;
 

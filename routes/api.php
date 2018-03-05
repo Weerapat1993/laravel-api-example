@@ -24,6 +24,7 @@ Route::delete('/articles', 'ArticleController@delete');
 Route::get('/comments', 'CommentController@getListByArticleID');
 Route::get('/comments/{id}', 'CommentController@getByID');
 Route::post('/comments', 'CommentController@create');
+Route::delete('/comments', 'CommentController@delete');
 
 // JWT Auth
 Route::post('register', 'AuthController@register');

@@ -19,6 +19,9 @@ class ReactController extends Controller
                 'description' => $article->description,
             ]);
         }
-        return view('react', ['path' => $path]);
+        if($path) {
+            return view('react', ['path' => $path]);
+        }
+        return view('react', ['path' => '/']);
     }
 }

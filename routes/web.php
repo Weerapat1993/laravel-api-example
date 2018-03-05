@@ -11,9 +11,9 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // Reset Password
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.request');
@@ -24,6 +24,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 // React Router Path
-Route::get('/{path?}', 'ReactController@show')->where('path', '.*');
+// Route::get('/{path?}', 'ReactController@show')->where('path', '.*');
 
 

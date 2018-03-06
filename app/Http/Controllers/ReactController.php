@@ -10,8 +10,8 @@ class ReactController extends Controller
 {
     public function show(Request $request) {
         $path = array_first(Route::current()->parameters);
-        if ($request->is('articles/*')) { 
-            $key = str_replace('articles/', '', $path);
+        if ($request->is('article/*')) { 
+            $key = str_replace('article/', '', $path);
             $article = Article::where('id', $key)->firstOrFail();
             return view('react', [
                 'path' => $path,

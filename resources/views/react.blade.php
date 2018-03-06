@@ -14,21 +14,26 @@
   <meta property="og:title" content="{{ $title or 'Title' }}">
   <meta property="og:url" content="{{ url($path) }}">
   <meta property="og:image" content={{ $image or '' }}>
-  <link href="/assets/css/github-markdown" rel="stylesheet">
-  <link href="/static/css/main.89927250.css" rel="stylesheet">
+  <link href="/assets/css/github-markdown.css" rel="stylesheet">
+  <link href="/assets/css/styles.css" rel="stylesheet">
 </head>
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root">
     <div class="container">
+      <div id="markdown"></div>
       <article class="markdown-body">
-        <h1>{{ $title or 'Title'}}</h1>
-        <pre>
-          Test
-        </pre>
+        <h1>{{ $title or 'Title' }}</h1>
+        <pre>{{ $description or 'Description' }}</pre>
       </article>
     </div>
+    <div class="loading-page">
+      <div class="bouncing-loader">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
   </div>
-  <script type="text/javascript" src="/static/js/main.5ae1bc4a.js"></script>
 </body>
 </html>

@@ -24,6 +24,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 // React Router Path
-// Route::get('/{path?}', 'ReactController@show')->where('path', '.*');
+Route::get('/{path?}', 'ReactController@show')->where('path', '.*');
 
 
